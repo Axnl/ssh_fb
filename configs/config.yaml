@@ -1,0 +1,52 @@
+telegram:
+  bot_token: "your_bot_token"
+  chat_id: 123456789
+
+ssh_protection:
+  max_failed_attempts: 5
+  ban_duration_hours: 24
+  ssh_log_file: "/var/log/auth.log"
+
+blacklist:
+  file: "blacklist.txt"
+  cleanup_interval_hours: 24
+
+logging:
+  log_file: "ssh_fb.log"
+  max_size: 10
+  max_backups: 5
+  max_age: 30
+  compress: true
+  rotate_interval: 24
+
+service:
+  install_path: "/opt/ssh_fb"
+  service_name: "ssh_fb"
+  service_file: "ssh_fb.service"
+  user: "root"
+  working_directory: "/opt/ssh_fb"
+
+ip_info:
+  api_url: "https://ipapi.co"
+  language: "zh"
+  timeout: 5
+  retry_count: 3
+  retry_interval: 1
+
+notifications:
+  login_success:
+    enabled: true
+    template: "✅ SSH登录成功\n时间: {{.Time}}\n{{.IPInfo}}\n服务器: {{.Server}}"
+  login_failed:
+    enabled: true
+    template: "⚠️ SSH登录失败\n时间: {{.Time}}\n{{.IPInfo}}\n失败次数: {{.Attempts}}/{{.MaxAttempts}}\n服务器: {{.Server}}"
+  ip_banned:
+    enabled: true
+    template: "🚫 IP {{.IP}} 已被封禁\n时间: {{.Time}}\n{{.IPInfo}}\n原因: SSH暴力破解\n封禁时长: {{.Duration}}小时\n解封时间: {{.ExpireTime}}\n服务器: {{.Server}}"
+
+debug:
+  enabled: false
+  log_level: "info"
+  trace_requests: false
+  profile_cpu: false
+  profile_memory: false 

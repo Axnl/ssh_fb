@@ -1,0 +1,44 @@
+# SSH防护系统配置文件
+telegram:
+  bot_token: "your_bot_token"
+  chat_id: "your_chat_id"
+
+ssh_protection:
+  max_failed_attempts: 5
+  ban_duration_hours: 24
+  ssh_log_file: "/var/log/auth.log"
+
+blacklist:
+  file: "/var/lib/ssh_fb/blacklist.txt"
+  cleanup_interval_hours: 24
+
+logging:
+  log_file: "/var/log/ssh_fb/ssh_fb.log"
+  max_size: 100
+  max_backups: 3
+  max_age: 28
+  compress: true
+  rotate_interval: 24
+
+service:
+  install_path: "/usr/local/ssh_fb"
+  service_name: "ssh_fb"
+  service_file: "ssh_fb.service"
+  user: "root"
+  working_directory: "/usr/local/ssh_fb"
+
+ipinfo:
+  api_url: "https://ipapi.co"
+  language: "zh"
+  timeout: 5
+  retry_count: 3
+  retry_interval: 1
+
+notifications:
+  login_success_template: "✅ 登录成功\n时间: {{.Time}}\nIP: {{.IP}}\n位置: {{.Location}}\n服务器: {{.Server}}"
+  login_failed_template: "❌ 登录失败\n时间: {{.Time}}\nIP: {{.IP}}\n尝试次数: {{.Attempts}}\n服务器: {{.Server}}"
+  ip_banned_template: "🚫 IP已封禁\nIP: {{.IP}}\n封禁时长: {{.Duration}}小时\n到期时间: {{.ExpireTime}}\n服务器: {{.Server}}"
+
+debug:
+  enabled: false
+  log_level: "info"
